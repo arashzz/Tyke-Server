@@ -4,15 +4,15 @@ import org.springframework.data.annotation.Id;
 
 public class Brand extends TykeModel {
 	@Id
-	String Id;
+	String id;
 	String name;
 	String description;
 	String image;
 	public String getId() {
-		return Id;
+		return id;
 	}
 	public void setId(String id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getName() {
 		return name;

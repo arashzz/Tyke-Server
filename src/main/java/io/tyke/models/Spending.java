@@ -6,17 +6,17 @@ import org.springframework.data.annotation.Id;
 
 public class Spending extends TykeModel {
 	@Id
-	String Id;
+	String id;
 	Date recieptDate;
 	Date expireyDate;
 	double recieptAmount;
 	SpendingUserForeignDocument user;
 	SpendingBrandForeignDocument brand;
 	public String getId() {
-		return Id;
+		return id;
 	}
 	public void setId(String id) {
-		Id = id;
+		this.id = id;
 	}
 	public Date getRecieptDate() {
 		return recieptDate;

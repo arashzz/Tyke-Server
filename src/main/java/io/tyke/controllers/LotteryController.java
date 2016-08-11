@@ -1,5 +1,6 @@
 package io.tyke.controllers;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.tyke.models.Brand;
+import io.tyke.models.ForeignDocument;
 import io.tyke.models.Lottery;
 import io.tyke.models.LotteryBrandForeignDocument;
 import io.tyke.repositories.IBaseRepository;
@@ -63,7 +65,7 @@ public class LotteryController {
 				System.out.println(genericSuperInterface.getActualTypeArguments()[0]);
 			}
 		}*/
-		Type brandType = TykeUtil.getParentGenericType(LotteryBrandForeignDocument.class);
+		/*Type brandType = TykeUtil.getParentGenericType(LotteryBrandForeignDocument.class);
 		IBaseRepository<?> rr;
 		try {
 			rr = TykeUtil.getRepositoryForType(brandType);
@@ -72,7 +74,9 @@ public class LotteryController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		Lottery l = repository.findOne("1");
+		List<Field> f = TykeUtil.getFieldsWithType(l.getClass(), ForeignDocument.class);
         //return repository.findByName(query);
 		return repository.findAll();
     }

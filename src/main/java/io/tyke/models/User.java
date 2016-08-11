@@ -4,16 +4,16 @@ import org.springframework.data.annotation.Id;
 
 public class User extends TykeModel {
 	@Id
-	String Id;
+	String id;
 	String username;
 	String password;
 	String email;
 	String phoneNumber;
 	public String getId() {
-		return Id;
+		return id;
 	}
 	public void setId(String id) {
-		Id = id;
+		this.id = id;
 	}
 	public String getUsername() {
 		return username;

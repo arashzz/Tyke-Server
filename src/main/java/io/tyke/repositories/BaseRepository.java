@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
+import io.tyke.application.ApplicationContextHolder;
 import io.tyke.models.TykeModel;
 
 @Service
@@ -24,6 +25,7 @@ public class BaseRepository<T extends TykeModel> implements IBaseRepository<T> {
 	
 	public BaseRepository(RepositoryType type){
 		this.type = type;
+		this.mongoRepoFactory = ApplicationContextHolder.getContext().getBean(MongoReporitoryFactory.class);
 	}
 	
 	protected MongoRepository<T, String> getRepository(){

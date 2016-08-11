@@ -1,16 +1,60 @@
 package io.tyke.utility;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.reflections.Reflections;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.PropertyAccessor;
+import org.springframework.beans.PropertyAccessorFactory;
+
 import io.tyke.repositories.BaseRepository;
 import io.tyke.repositories.IBaseRepository;
 
 public class TykeUtil {
+	public static boolean isAssignableFrom(Class<?> query, Class<?> target){
+		if(query == Object.class || query == null){
+			return query == target;
+		}
+		if(query.isAssignableFrom(target)){
+			return true;
+		}
+		return isAssignableFrom(query.getSuperclass(), target);
+	}
+	public static List<Field> getFieldsWithType(Class<?> target, Class<?> fieldType){
+		List<Field> retList = new ArrayList<Field>();
+		for (Class<?> c = target; c != null; c = c.getSuperclass()){
+			for (Field f : c.getDeclaredFields()) {
+				if(isAssignableFrom(f.getType(), fieldType)){
+					retList.add(f);
+				}
+			}
+		}
+		return retList;
+	}
+	public static Field getFieldWithName(Class<?> target, String name){
+		for (Class<?> c = target; c != null; c = c.getSuperclass()){
+			for (Field f : c.getDeclaredFields()) {
+				if(f.getName().equalsIgnoreCase(name)){
+					return f;
+				}
+			}
+		}
+		return null;
+	}
+	public static void setProperty(Object obj, String propertyName, Object propertyValue){
+		PropertyAccessor myAccessor = PropertyAccessorFactory.forDirectFieldAccess(obj);
+		myAccessor.setPropertyValue(propertyName, propertyValue);
+	}
+	public static Object getProperty(Object obj, String propertyName){
+		PropertyAccessor myAccessor = PropertyAccessorFactory.forDirectFieldAccess(obj);
+		return myAccessor.getPropertyValue(propertyName);
+	}
 	public static Type getParentGenericType(Class<?> model){
 		ParameterizedType genericSuperClass = (ParameterizedType)model.getGenericSuperclass();
 		return genericSuperClass.getActualTypeArguments()[0];
